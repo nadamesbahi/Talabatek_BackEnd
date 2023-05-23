@@ -14,10 +14,12 @@ return new class extends Migration
     public function up()
     {
         Schema::create('commandes', function (Blueprint $table) {
-            $table->id('numéro');
-            $table->enum('etat',['accepter','annuler']);
+            $table->id();
+            $table->enum('etat',['en attende','accepter','annuler']);
             $table->enum('mode_paiement',['visa','master card']);
             $table->date('date');
+            $table->string('adresse',100);
+            $table->integer('total');
             $table->timestamps();
         });
     }

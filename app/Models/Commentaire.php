@@ -8,4 +8,8 @@ use Illuminate\Database\Eloquent\Model;
 class Commentaire extends Model
 {
     use HasFactory;
+    protected $fillable = ['id', 'texte', 'date'];
+    public function client(){
+        $this->belongsTo(Client::class,'idCommentaire');
+    }
 }

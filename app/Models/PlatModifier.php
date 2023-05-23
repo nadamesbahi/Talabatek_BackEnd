@@ -8,4 +8,6 @@ use Illuminate\Database\Eloquent\Model;
 class PlatModifier extends Model
 {
     use HasFactory;
+    protected $fillable = ['id', 'nom', 'prix','description','photo'];
+
 }

@@ -28,7 +28,7 @@ return new class extends Migration
             $table->enum('etat',['bloquer','non bloquer'])->default('non bloquer');
             $table->unsignedBigInteger('idCommande');
             $table->unsignedBigInteger('idCommentaire');
-            $table->foreign('idCommande')->references('numéro')->on('commandes')->onDelete('cascade');
+            $table->foreign('idCommande')->references('id')->on('commandes')->onDelete('cascade');
             $table->foreign('idCommentaire')->references('id')->on('commentaires')->onDelete('cascade');
 
             $table->timestamps();

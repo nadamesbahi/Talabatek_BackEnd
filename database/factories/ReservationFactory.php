@@ -24,7 +24,8 @@ class ReservationFactory extends Factory
             ]),
             'date_reserver'=>$this->faker->date,
             'heure'=>$this->faker->time,
-            'numéro_table'=>$this->faker->numberBetween(1,15)
+            'numéro_table'=>$this->faker->numberBetween(1,15),
+            'numéro_personne'=>$this->faker->numberBetween(1,15),
         ];
     }
 }

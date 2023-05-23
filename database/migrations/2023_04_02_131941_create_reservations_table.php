@@ -20,6 +20,7 @@ return new class extends Migration
             $table->date('date_actuel')->default(date("Y-m-d"));
             $table->time('heure');
             $table->integer('numéro_table');
+            $table->integer('numéro_personne');
             $table->timestamps();
         });
     }

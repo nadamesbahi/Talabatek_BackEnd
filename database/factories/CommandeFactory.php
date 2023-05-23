@@ -26,7 +26,9 @@ class CommandeFactory extends Factory
                 "visa",
                 "master card",
             ]),
-           'date'=>$this->faker->date
+           'date'=>$this->faker->date,
+           'adresse'=>$this->faker->address(),
+           'total'=>$this->faker->numberBetween(50,250),
         ];
     }
 }
