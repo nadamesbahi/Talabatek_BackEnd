@@ -32,6 +32,7 @@ class CommandesController extends Controller
                 ->get();
         }
         return $res;
+        // hello
     }
     public function changerEtatAnnuler($id)
     {
