@@ -15,11 +15,11 @@ return new class extends Migration
     {
         Schema::create('commandes', function (Blueprint $table) {
             $table->id();
-            $table->enum('etat',['en attende','accepter','annuler']);
-            $table->enum('mode_paiement',['visa','master card']);
+            $table->enum('etat',['en attente','accepter','annuler']);
+            $table->enum('mode_paiement',['visa','master card','pay pal']);
             $table->date('date');
             $table->string('adresse',100);
-            $table->integer('total');
+            $table->boolean('total');
             $table->timestamps();
         });
     }

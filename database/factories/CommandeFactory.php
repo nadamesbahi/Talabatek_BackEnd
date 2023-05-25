@@ -21,14 +21,16 @@ class CommandeFactory extends Factory
             'etat'=>$this->faker->randomElement([
                 "accepter",
                 "annuler",
+                "en attente"
             ]),
             'mode_paiement'=>$this->faker->randomElement([
                 "visa",
                 "master card",
+                "pay pal"
             ]),
            'date'=>$this->faker->date,
            'adresse'=>$this->faker->address(),
-           'total'=>$this->faker->numberBetween(50,250),
+           'total'=>$this->faker->numberBetween(50,100)
         ];
     }
 }

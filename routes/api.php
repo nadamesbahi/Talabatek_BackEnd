@@ -4,6 +4,7 @@ use App\Http\Controllers\Api\CategorieController;
 use App\Http\Controllers\Api\CommandeController;
 use App\Http\Controllers\Api\CommandesController;
 use App\Http\Controllers\Api\PlatController;
+use App\Http\Controllers\Api\RestaurantController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -23,7 +24,9 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 // Route::apiResource('commandes',CommandeController::class);
 Route::apiResource('plats',PlatController::class);
+Route::apiResource('restaurants',RestaurantController::class);
 Route::apiResource('categories',CategorieController::class);
 Route::get('commandeAn/{id}',[CommandesController::class,'changerEtatAnnuler']);
 Route::get('commandeAc/{id}',[CommandesController::class,'changerEtatAccepter']);
 Route::get('commandes/{value}',[CommandesController::class,'filtrerDate']);
+Route::get('commandes',[CommandesController::class,'allCommandes']);

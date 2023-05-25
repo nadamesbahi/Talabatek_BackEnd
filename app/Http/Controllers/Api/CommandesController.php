@@ -15,24 +15,23 @@ class CommandesController extends Controller
         if ($val === "Aujourd") {
             $res = DB::table('clients')
             ->join('commandes', 'clients.idCommande', '=', 'commandes.id')
-            ->select('clients.nom', 'clients.prenom', 'commandes.date', 'commandes.id', 'commandes.adresse', 'commandes.total')
+            ->select('clients.nom', 'clients.prenom','commandes.id', 'commandes.date', 'commandes.adresse', 'commandes.total','commandes.etat')
             ->whereDate('commandes.date', '=', DB::raw('CURDATE()'))
             ->get();
         } else if ($val === "Hier") {
             $res = DB::table('clients')
             ->join('commandes', 'clients.idCommande', '=', 'commandes.id')
-            ->select('clients.nom', 'clients.prenom', 'commandes.date', 'commandes.id', 'commandes.adresse', 'commandes.total')
+            ->select('clients.nom', 'clients.prenom', 'commandes.id','commandes.date',  'commandes.adresse', 'commandes.total','commandes.etat')
             ->whereDate('commandes.date', '=', DB::raw('CURDATE() - INTERVAL 1 DAY'))
             ->get();
 
         } else {
             $res = DB::table('clients')
                 ->join('commandes', 'clients.idCommande', '=', 'commandes.id')
-                ->select('clients.nom', 'clients.prenom', 'commandes.date', 'commandes.id', 'commandes.adresse', 'commandes.total')
+                ->select('clients.nom', 'clients.prenom','commandes.id', 'commandes.date','commandes.adresse', 'commandes.total','commandes.etat')
                 ->get();
         }
         return $res;
-        // hello
     }
     public function changerEtatAnnuler($id)
     {
@@ -51,5 +50,8 @@ class CommandesController extends Controller
             $command->save();
             return 'with succeee';
         }
+    }
+    public function allCommandes(){
+        return Commande::all();
     }
 }

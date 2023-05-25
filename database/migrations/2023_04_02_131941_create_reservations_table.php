@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::create('reservations', function (Blueprint $table) {
             $table->id();
-            $table->enum('etat',['accepter','annuler']);
+            $table->enum('etat',['en attente','accepter','annuler']);
             $table->date('date_reserver');
             $table->date('date_actuel')->default(date("Y-m-d"));
             $table->time('heure');

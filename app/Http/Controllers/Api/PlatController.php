@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Http\Controllers\Controller;
 use App\Models\Plat;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\File;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Storage;
 
 class PlatController extends Controller
 {
@@ -26,27 +27,21 @@ class PlatController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
+
+
     public function store(Request $request)
     {
-        //
         $request->validate([
             'nom' => 'required',
-            'prix' => 'required|integer',
+            'prix' => 'required',
             'description' => 'required',
-            'photo' => 'required|image|mimes:jpeg,png,jpg',
-            'idCategorie' => 'required',
+            // 'photo' => 'required|image',
+            'idCategorie' => 'required|integer'
         ]);
-        $plat = new Plat();
-        $plat->nom = $request->nom;
-        $plat->prix = $request->prix;
-        $plat->description = $request->description;
-
-        if ($request->hasFile('image'))
-            $plat->photo = $request->file('photo')->store('images', 'public');
-
-        $plat->idCategorie = $request->idCategorie;
-        $plat->save();
-        return 'succc';
+        // $imageName = Str::random() . '.' . $request->photo->getClientOriginalExtension();
+        // Storage::disk('public')->putFileAs('plat/image', $request->photo, $imageName);
+        Plat::create($request->post());
+        return 'true';
     }
 
     /**
@@ -58,6 +53,7 @@ class PlatController extends Controller
     public function show($id)
     {
         //
+        return Plat::find($id);
     }
 
     /**
@@ -67,31 +63,35 @@ class PlatController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Plat $plat)
     {
+
         //
-        $platInfo = Plat::where('id', '=', $id);
-        if (!$platInfo) {
-            return back()->with("fail", "no plat trouver");
-        } else {
-        $plat = Plat::find($id);
-        $plat->nom = $request->nom;
-        $plat->prix = $request->prix;
-        $plat->description = $request->description;
+        $request->validate([
+            'nom' => 'required',
+            'prix' => 'required',
+            'description' => 'required',
+            'photo' => 'required',
+            'idCategorie' => 'required|integer'
+        ]);
+
+        $plat->fill($request->post())->update();
+
         if ($request->hasFile('image')) {
+
             if ($plat->photo) {
-                $path = public_path('storage/' . $plat->image);
+                $path = public_path('storage/' . $plat->photo);
                 if (file_exists($path)) {
-                    //supprimer la photo
-                    File::unlink($path);
+
+                    unlink($path);
                 }
             }
             $plat->photo = $request->photo->store('images', 'public');
         }
-        $plat->idCategorie = $request->idCategorie;
         $plat->save();
         return 'Modification avec sucess!!';
-        }
+
+
     }
 
     /**
@@ -105,6 +105,6 @@ class PlatController extends Controller
         //
         $plat = Plat::find($id);
         $plat->delete();
-        return redirect('/plats')->with(['success' => 'Deleted with success']);
+        return 'Supression avec sucess!!';
     }
 }

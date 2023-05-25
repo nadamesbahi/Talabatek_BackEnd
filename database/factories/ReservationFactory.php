@@ -21,6 +21,7 @@ class ReservationFactory extends Factory
             'etat'=>$this->faker->randomElement([
                 "accepter",
                 "annuler",
+                "en attente"
             ]),
             'date_reserver'=>$this->faker->date,
             'heure'=>$this->faker->time,

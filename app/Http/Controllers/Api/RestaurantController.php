@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Http\Controllers\Controller;
-use App\Models\Categorie;
+use App\Models\Restaurant;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Storage;
 
-class CategorieController extends Controller
+class RestaurantController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -16,8 +18,7 @@ class CategorieController extends Controller
     public function index()
     {
         //
-        return Categorie::all();
-
+        return Restaurant::all();
     }
 
     /**
@@ -29,24 +30,6 @@ class CategorieController extends Controller
     public function store(Request $request)
     {
         //
-        $request->validate([
-            'nom' => 'required',
-            'photo' => 'required',
-        ]);
-
-        // $nom = $request->nom;
-        // $img = $request->photo;
-        // $extension = $img->getClientOriginalName();
-        // $image_name = time() . '_' . $extension;
-        // return [$nom,$img];
-
-        //  $extension = $img->getClientOriginalName();
-
-        // $image_name = time() . '_' . $extension;
-
-        //  $img->move(public_path('images'), $image_name);
-        Categorie::create($request->post());
-        return 'Avec success';
     }
 
     /**
@@ -58,6 +41,7 @@ class CategorieController extends Controller
     public function show($id)
     {
         //
+        return Restaurant::find($id);
     }
 
     /**
@@ -70,6 +54,30 @@ class CategorieController extends Controller
     public function update(Request $request, $id)
     {
         //
+
+        $request->validate([
+            'nom' => 'required',
+            'email' => 'required|email',
+            'adresse' => 'required',
+            'telephone' => 'required',
+            'mot_de_passe' => 'required|max:8',
+            // 'photo' => 'required|image'
+        ]);
+        $restaut = Restaurant::find($id);
+        $restaut->fill($request->post())->update();
+        if ($request->hasFile('image')) {
+
+            if ($restaut->photo) {
+                $path = public_path('storage/' . $restaut->photo);
+                if (file_exists($path)) {
+
+                    unlink($path);
+                }
+            }
+            $restaut->photo = $request->photo->store('images', 'public');
+        }
+        $restaut->save();
+        return 'Modification avec sucess!!';
     }
 
     /**
