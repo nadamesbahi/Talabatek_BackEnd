@@ -89,5 +89,14 @@ class RestaurantController extends Controller
     public function destroy($id)
     {
         //
+
+    }
+    public function changerEtatSupress($id){
+        $restaut=Restaurant::find($id);
+        if ($restaut) {
+            $restaut->etat = 'en attente';
+            $restaut->save();
+            return 'with succeee';
+        }
     }
 }
