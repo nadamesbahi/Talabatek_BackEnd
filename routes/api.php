@@ -22,6 +22,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 Route::apiResource('plats',PlatController::class);
+Route::get('plat/{restauFltr}',[PlatController::class,'platParRestau']);
 //restau
 Route::apiResource('restaurants',RestaurantController::class);
 Route::get('restaurant/{id}',[RestaurantController::class,'changerEtatSupress']);

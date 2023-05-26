@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Models\Plat;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Storage;
 
@@ -90,8 +91,6 @@ class PlatController extends Controller
         }
         $plat->save();
         return 'Modification avec sucess!!';
-
-
     }
 
     /**
@@ -106,5 +105,16 @@ class PlatController extends Controller
         $plat = Plat::find($id);
         $plat->delete();
         return 'Supression avec sucess!!';
+    }
+    public function platParRestau($restauFltr)
+    {
+        $plat = DB::table('plats')
+            ->join('restaurants', 'plats.id', '=', 'restaurants.idPlat')
+            ->where('restaurants.id', $restauFltr)
+            ->select('plats.nom','plats.prix','plats.description','plats.photo')
+            ->get();
+
+        return $plat;
+
     }
 }

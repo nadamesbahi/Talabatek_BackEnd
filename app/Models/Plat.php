@@ -12,4 +12,8 @@ class Plat extends Model
     public function categorie(){
         $this->belongsTo(Categorie::class,'idCategorie');
     }
+    public function restaurants()
+    {
+        return $this->hasMany(Restaurant::class, 'idPlat');
+    }
 }

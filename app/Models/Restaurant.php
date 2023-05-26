@@ -9,5 +9,9 @@ class Restaurant extends Model
 {
     use HasFactory;
     protected $fillable = ['id', 'nom', 'telephone','email','mot_de_passe','adresse','photo','type_utilisateur','etat','idReservation','idPlat','idCommentaire'];
+    public function plat()
+    {
+        return $this->belongsTo(Plat::class, 'idPlat');
+    }
 
 }
