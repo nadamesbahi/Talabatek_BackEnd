@@ -19,7 +19,7 @@ class PlatController extends Controller
     public function index()
     {
         //
-        return Plat::all();
+        return Plat::where(['etat'=>'accepter'])->get();
     }
 
     /**
@@ -89,6 +89,7 @@ class PlatController extends Controller
             }
             $plat->photo = $request->photo->store('images', 'public');
         }
+        $plat->etat='en attente';
         $plat->save();
         return 'Modification avec sucess!!';
     }

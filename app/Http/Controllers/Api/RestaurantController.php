@@ -64,8 +64,10 @@ class RestaurantController extends Controller
             // 'photo' => 'required|image'
         ]);
         $restaut = Restaurant::find($id);
+
         $restaut->fill($request->post())->update();
-        if ($request->hasFile('image')) {
+
+        if ($request->hasFile('photo')) {
 
             if ($restaut->photo) {
                 $path = public_path('storage/' . $restaut->photo);

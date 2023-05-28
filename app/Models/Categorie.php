@@ -9,7 +9,7 @@ class Categorie extends Model
 {
     use HasFactory;
     protected $fillable = ['id', 'nom', 'photo'];
-    public function plats(){
-        $this->hasMany(Plat::class,'idCategorie');
+    public function plat(){
+        $this->belongsTo(Plat::class,'idCategorie');
     }
 }

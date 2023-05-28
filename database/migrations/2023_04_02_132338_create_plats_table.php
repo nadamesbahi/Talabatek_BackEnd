@@ -19,6 +19,7 @@ return new class extends Migration
             $table->boolean('prix');
             $table->string('description',100);
             $table->string('photo',100);
+            $table->enum('etat',['accepter','annuler','en attente']);
             $table->unsignedBigInteger('idCategorie');
             $table->foreign('idCategorie')->references('id')->on('categories')->onDelete('cascade');
             $table->timestamps();

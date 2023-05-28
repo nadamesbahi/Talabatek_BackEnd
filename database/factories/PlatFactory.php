@@ -22,6 +22,11 @@ class PlatFactory extends Factory
             'prix'=>$this->faker->numberBetween(50,100),
             'description'=>$this->faker->slug(),
             'photo'=>$this->faker->imageUrl(640,480),
+            'etat'=>$this->faker->randomElement([
+                "accepter",
+                "annuler",
+                "en attente"
+            ]),
             'idCategorie'=>$this->faker->numberBetween(1,5)
 
         ];
