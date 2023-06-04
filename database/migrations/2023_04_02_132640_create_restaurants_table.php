@@ -27,7 +27,7 @@ return new class extends Migration
             $table->unsignedBigInteger('idPlat');
             $table->unsignedBigInteger('idCommentaire');
             $table->foreign('idReservation')->references('id')->on('reservations')->onDelete('cascade');
-            $table->foreign('idPlat')->references('id')->on('plats')->onDelete('cascade');
+            $table->foreign('idPlat')->references('id')->on('plats');
             $table->foreign('idCommentaire')->references('id')->on('commentaires')->onDelete('cascade');
 
             $table->timestamps();

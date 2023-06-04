@@ -12,8 +12,14 @@ class Plat extends Model
     public function categories(){
         $this->hasMany(Categorie::class,'idCategorie');
     }
+
     public function restaurant()
     {
         return $this->belongsTo(Restaurant::class, 'idPlat');
+    }
+
+    public function commandes()
+    {
+        return $this->belongsToMany(Commande::class, 'detail_commande','idCommande', 'idPlat')->withPivot('quantité_commander','total');
     }
 }

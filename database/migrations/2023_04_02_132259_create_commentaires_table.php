@@ -16,7 +16,7 @@ return new class extends Migration
         Schema::create('commentaires', function (Blueprint $table) {
             $table->id();
             $table->string('texte',100);
-            $table->date('date');
+            $table->date('date')->default(now());
             $table->timestamps();
         });
     }

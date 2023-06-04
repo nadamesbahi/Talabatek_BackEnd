@@ -24,9 +24,8 @@ class CommandeFactory extends Factory
                 "en attente"
             ]),
             'mode_paiement'=>$this->faker->randomElement([
-                "visa",
-                "master card",
-                "pay pal"
+                "Cash",
+                "Carte"
             ]),
            'date'=>$this->faker->date,
            'adresse'=>$this->faker->address(),

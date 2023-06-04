@@ -8,6 +8,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\File;
+
 
 class PlatController extends Controller
 {
@@ -36,13 +38,12 @@ class PlatController extends Controller
             'nom' => 'required',
             'prix' => 'required',
             'description' => 'required',
-            // 'photo' => 'required|image',
+            'photo' => 'required',
             'idCategorie' => 'required|integer'
         ]);
-        // $imageName = Str::random() . '.' . $request->photo->getClientOriginalExtension();
-        // Storage::disk('public')->putFileAs('plat/image', $request->photo, $imageName);
-        Plat::create($request->post());
-        return 'true';
+
+        $plat=Plat::create($request->post());
+        return response()->json($plat);
     }
 
     /**
@@ -66,7 +67,6 @@ class PlatController extends Controller
      */
     public function update(Request $request, Plat $plat)
     {
-
         //
         $request->validate([
             'nom' => 'required',
@@ -78,21 +78,12 @@ class PlatController extends Controller
 
         $plat->fill($request->post())->update();
 
-        if ($request->hasFile('image')) {
-
-            if ($plat->photo) {
-                $path = public_path('storage/' . $plat->photo);
-                if (file_exists($path)) {
-
-                    unlink($path);
-                }
-            }
-            $plat->photo = $request->photo->store('images', 'public');
-        }
         $plat->etat='en attente';
         $plat->save();
         return 'Modification avec sucess!!';
     }
+
+
 
     /**
      * Remove the specified resource from storage.
@@ -107,15 +98,17 @@ class PlatController extends Controller
         $plat->delete();
         return 'Supression avec sucess!!';
     }
-    public function platParRestau($restauFltr)
+
+    public function platCategorie($id)
     {
         $plat = DB::table('plats')
-            ->join('restaurants', 'plats.id', '=', 'restaurants.idPlat')
-            ->where('restaurants.id', $restauFltr)
-            ->select('plats.nom','plats.prix','plats.description','plats.photo')
+            ->join('categories', 'plats.idCategorie', '=', 'categories.id')
+            ->where('categories.id', $id)
+            ->select('plats.id','plats.nom','plats.prix','plats.description','plats.photo')
             ->get();
 
         return $plat;
 
     }
+
 }

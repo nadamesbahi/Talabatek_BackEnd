@@ -13,9 +13,11 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('categories', function (Blueprint $table) {
+        Schema::create('plat_modifier', function (Blueprint $table) {
             $table->id();
-            $table->string('nom',100);
+            $table->string('nom',50);
+            $table->boolean('prix');
+            $table->string('description',100);
             $table->string('photo',200);
             $table->timestamps();
         });
@@ -28,6 +30,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('categories');
+        Schema::dropIfExists('plat_modifier');
     }
 };

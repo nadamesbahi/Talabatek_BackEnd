@@ -15,9 +15,9 @@ return new class extends Migration
     {
         Schema::create('commandes', function (Blueprint $table) {
             $table->id();
-            $table->enum('etat',['en attente','accepter','annuler']);
-            $table->enum('mode_paiement',['visa','master card','pay pal']);
-            $table->date('date');
+            $table->enum('etat',['en attente','accepter','annuler'])->default('en attente');
+            $table->enum('mode_paiement',['Cash','Carte']);
+            $table->date('date')->default(now());
             $table->string('adresse',100);
             $table->boolean('total');
             $table->timestamps();

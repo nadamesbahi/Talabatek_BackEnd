@@ -1,6 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Schema;
+use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
 return new class extends Migration
@@ -17,7 +19,7 @@ return new class extends Migration
         AFTER UPDATE ON plats
         FOR EACH ROW
         BEGIN
-            INSERT INTO plat_modifiers
+            INSERT INTO plat_modifier
             VALUES (OLD.id, OLD.nom, OLD.prix, OLD.description, OLD.photo,OLD.created_at,OLD.updated_at);
         END
     ');

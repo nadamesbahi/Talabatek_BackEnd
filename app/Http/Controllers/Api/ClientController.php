@@ -2,13 +2,12 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Models\Categorie;
+use App\Http\Controllers\Controller;
+use App\Models\Client;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use App\Http\Controllers\Controller;
-use App\Models\Plat;
 
-class CategorieController extends Controller
+class ClientController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -18,7 +17,7 @@ class CategorieController extends Controller
     public function index()
     {
         //
-        return Categorie::all();
+        return Client::all();
     }
 
     /**
@@ -27,15 +26,9 @@ class CategorieController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-
     public function store(Request $request)
     {
-        $request->validate([
-            'nom' => 'required',
-            'photo' => 'required',
-        ]);
-        $cate = Categorie::create($request->post());
-        return response()->json($cate);
+        //
     }
 
     /**
@@ -47,6 +40,7 @@ class CategorieController extends Controller
     public function show($id)
     {
         //
+        return Client::find($id);
     }
 
     /**
@@ -71,12 +65,5 @@ class CategorieController extends Controller
     {
         //
     }
-
-    public function categoriPlat($id)
-    {
-        $plat = Plat::findOrFail($id);
-        $idCategorie = $plat->idCategorie;
-        $platsMemeCategorie = Plat::where('idCategorie', $idCategorie)->get();
-        return response()->json($platsMemeCategorie);
-    }
+ 
 }
