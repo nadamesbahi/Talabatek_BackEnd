@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Models\Plat;
 use App\Models\Categorie;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
-use App\Models\Plat;
+use Illuminate\Support\Facades\Storage;
 
 class CategorieController extends Controller
 {
@@ -32,10 +34,11 @@ class CategorieController extends Controller
     {
         $request->validate([
             'nom' => 'required',
-            'photo' => 'required',
+            'photo' => 'required|image',
         ]);
-        $cate = Categorie::create($request->post());
-        return response()->json($cate);
+        $imageName = Str::random() . '.' . $request->photo->getClientOriginalExtension();
+        Storage::disk('public')->putFileAs('Categorie/image', $request->photo, $imageName);
+        Categorie::create($request->post()+ ['photo'=>$imageName]);
     }
 
     /**

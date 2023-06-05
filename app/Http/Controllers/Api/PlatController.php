@@ -21,7 +21,7 @@ class PlatController extends Controller
     public function index()
     {
         //
-        return Plat::where(['etat'=>'accepter'])->get();
+        return Plat::where(['etat' => 'accepter'])->get();
     }
 
     /**
@@ -38,12 +38,12 @@ class PlatController extends Controller
             'nom' => 'required',
             'prix' => 'required',
             'description' => 'required',
-            'photo' => 'required',
+            'photo' => 'required|image',
             'idCategorie' => 'required|integer'
         ]);
-
-        $plat=Plat::create($request->post());
-        return response()->json($plat);
+        $imageName = Str::random() . '.' . $request->photo->getClientOriginalExtension();
+        Storage::disk('public')->putFileAs('Plat/image', $request->photo, $imageName);
+        Plat::create($request->post() + ['photo' => $imageName]);
     }
 
     /**
@@ -68,19 +68,31 @@ class PlatController extends Controller
     public function update(Request $request, Plat $plat)
     {
         //
-        $request->validate([
-            'nom' => 'required',
-            'prix' => 'required',
-            'description' => 'required',
-            'photo' => 'required',
-            'idCategorie' => 'required|integer'
-        ]);
+        // $request->validate([
+        //     'nom' => 'required',
+        //     'prix' => 'required',
+        //     'description' => 'required',
+        //     'photo' => 'required',
+        //     'idCategorie' => 'required|integer'
+        // ]);
 
         $plat->fill($request->post())->update();
 
-        $plat->etat='en attente';
-        $plat->save();
-        return 'Modification avec sucess!!';
+
+        if ($request->has('photo')) {
+            if ($plat->photo) {
+                $public = Storage::disk('public')->exists("Plat/image/{$plat->photo}");
+                if ($public) {
+                    Storage::disk('public')->delete("Plat/image/{$plat->photo}");
+                }
+            }
+            $imageName = Str::random() . '.' . $request->photo;
+            Storage::disk('public')->putFileAs('Plat/image', $request->photo, $imageName);
+            $plat->photo = $imageName;
+             // $plat->etat='en attente';
+            $plat->save();
+        // return 'Modification avec sucess!!';
+        }
     }
 
 
@@ -104,11 +116,9 @@ class PlatController extends Controller
         $plat = DB::table('plats')
             ->join('categories', 'plats.idCategorie', '=', 'categories.id')
             ->where('categories.id', $id)
-            ->select('plats.id','plats.nom','plats.prix','plats.description','plats.photo')
+            ->select('plats.id', 'plats.nom', 'plats.prix', 'plats.description', 'plats.photo')
             ->get();
 
         return $plat;
-
     }
-
 }
