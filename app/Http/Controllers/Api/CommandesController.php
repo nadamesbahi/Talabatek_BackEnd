@@ -25,18 +25,18 @@ class CommandesController extends Controller
             $res = DB::table('clients')
                 ->join('commandes', 'clients.idCommande', '=', 'commandes.id')
                 ->select('clients.nom', 'clients.prenom', 'commandes.id', 'commandes.date', 'commandes.adresse', 'commandes.total', 'commandes.etat')
-                ->whereDate('commandes.date', '=', DB::raw('CURDATE()'))
+                ->whereDate('clients.idCommande','commandes.date', '=', DB::raw('CURDATE()'))
                 ->get();
         } else if ($val === "Hier") {
             $res = DB::table('clients')
                 ->join('commandes', 'clients.idCommande', '=', 'commandes.id')
                 ->select('clients.nom', 'clients.prenom', 'commandes.id', 'commandes.date',  'commandes.adresse', 'commandes.total', 'commandes.etat')
-                ->whereDate('commandes.date', '=', DB::raw('CURDATE() - INTERVAL 1 DAY'))
+                ->whereDate('clients.idCommande','commandes.date', '=', DB::raw('CURDATE() - INTERVAL 1 DAY'))
                 ->get();
         } else {
             $res = DB::table('clients')
                 ->join('commandes', 'clients.idCommande', '=', 'commandes.id')
-                ->select('clients.nom', 'clients.prenom', 'commandes.id', 'commandes.date', 'commandes.adresse', 'commandes.total', 'commandes.etat')
+                ->select('clients.idCommande','clients.nom', 'clients.prenom', 'commandes.id', 'commandes.date', 'commandes.adresse', 'commandes.total', 'commandes.etat')
                 ->get();
         }
         return $res;

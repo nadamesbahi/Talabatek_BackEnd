@@ -8,7 +8,6 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Facades\File;
 
 
 class PlatController extends Controller
@@ -68,31 +67,17 @@ class PlatController extends Controller
     public function update(Request $request, Plat $plat)
     {
         //
-        // $request->validate([
-        //     'nom' => 'required',
-        //     'prix' => 'required',
-        //     'description' => 'required',
-        //     'photo' => 'required',
-        //     'idCategorie' => 'required|integer'
-        // ]);
+        $request->validate([
+            'nom' => 'required',
+            'prix' => 'required',
+            'description' => 'required',
+            'photo' => 'required',
+            'idCategorie' => 'required|integer'
+        ]);
 
         $plat->fill($request->post())->update();
+        return 'Modification avec sucess!!';
 
-
-        if ($request->has('photo')) {
-            if ($plat->photo) {
-                $public = Storage::disk('public')->exists("Plat/image/{$plat->photo}");
-                if ($public) {
-                    Storage::disk('public')->delete("Plat/image/{$plat->photo}");
-                }
-            }
-            $imageName = Str::random() . '.' . $request->photo;
-            Storage::disk('public')->putFileAs('Plat/image', $request->photo, $imageName);
-            $plat->photo = $imageName;
-             // $plat->etat='en attente';
-            $plat->save();
-        // return 'Modification avec sucess!!';
-        }
     }
 
 
